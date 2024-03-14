@@ -7,7 +7,7 @@
             <head>
                 <meta charset="UTF-8">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Create Users</title>
+                <title>Update Users</title>
                 <!-- Latest compiled and minified CSS -->
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -26,15 +26,16 @@
                         <div class="col-md-6 col-12 mx-auto">
                             <h3>Create a user</h3>
                             <hr />
-                            <form:form method="post" action="/admin/user/create" modelAttribute="employee">
+                            <form:form method="post" action="/admin/user/table-user-update" modelAttribute="newUser">
+                                <div class="mb-3" style="display: none;">
+                                    <form:label class="form-label" path="id">Id:</form:label>
+                                    <form:input type="text" class="form-control" path="id" />
+                                </div>
                                 <div class="mb-3">
                                     <form:label class="form-label" path="email">Email:</form:label>
-                                    <form:input type="email" class="form-control" path="email" />
+                                    <form:input type="email" class="form-control" path="email" disabled="true" />
                                 </div>
-                                <div class="mb-3">
-                                    <form:label class="form-label" path="password">Password:</form:label>
-                                    <form:input type="password" class="form-control" path="password" />
-                                </div>
+
                                 <div class="mb-3">
                                     <form:label class="form-label" path="phone">Phone number:</form:label>
                                     <form:input type="text" class="form-control" path="phone" />
@@ -48,7 +49,7 @@
                                     <form:input type="text" class="form-control" path="address" />
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Create</button>
+                                <button type="submit" class="btn btn-warning">Update</button>
                             </form:form>
                         </div>
 
