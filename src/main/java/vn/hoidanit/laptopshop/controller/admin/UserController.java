@@ -1,4 +1,4 @@
-package vn.hoidanit.laptopshop.controller;
+package vn.hoidanit.laptopshop.controller.admin;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class UserController {
         model.addAttribute("user1", arrUsers);
 
         // System.out.println(arrUsers);
-        return "admin/user/table-user";
+        return "admin/user/show";
     }
 
     @RequestMapping("/admin/user/{id}")
@@ -46,12 +46,12 @@ public class UserController {
         User arrUser = this.userService.getUserByid(id);
         // System.out.println(arrUser);
         model.addAttribute("engkisha", arrUser);
-        return "admin/user/show";
+        return "admin/user/detail";
     }
 
     @RequestMapping("/admin/user/create")
     public String getUserPage(Model model) {
-        model.addAttribute("employee", new User());
+        model.addAttribute("newUser", new User());
         return "admin/user/create";
     }
 
@@ -59,18 +59,18 @@ public class UserController {
     public String getUserUpdatePage(Model model, @PathVariable long id) {
         User currentUser = this.userService.getUserByid(id);
         model.addAttribute("newUser", currentUser);
-        return "admin/user/table-user-update";
+        return "admin/user/update";
     }
 
     @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
     public String submit(@ModelAttribute("employee") User user, Model model) {
-        System.out.println(user);
+        // System.out.println(user);
         this.userService.handleSave(user);
         return "redirect:/admin/user";
 
     }
 
-    @PostMapping("/admin/user/table-user-update")
+    @PostMapping("/admin/user/update")
     public String postUserUpdate(Model model, @ModelAttribute("newUser") User user) {
         User currentUser = this.userService.getUserByid(user.getId());
         // model.addAttribute("newUser", currentUser);
