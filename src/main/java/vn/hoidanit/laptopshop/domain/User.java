@@ -2,6 +2,9 @@ package vn.hoidanit.laptopshop.domain;
 
 import java.util.List;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,19 +19,35 @@ import jakarta.persistence.Table;
 
 public class User {
     @Id
-    private long id;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String email;
     private String password;
     private String fullname;
     private String address;
     private String phone;
     private String avatar;
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "role_id")
     private Role role;
     @OneToMany(mappedBy = "user")
-    private List<Order> orders;
+    List<Order> orders;
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public long getId() {
         return id;
