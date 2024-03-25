@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.servlet.ServletContext;
 import jakarta.validation.Valid;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.UploadService;
@@ -26,15 +25,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class UserController {
     private final UserService userService;
 
-    private final ServletContext servletContext;
     private final UploadService uploadService;
     private final PasswordEncoder passwordEncoder;
 
     public UserController(UserService userService,
-            UploadService uploadService, ServletContext servletContext,
+            UploadService uploadService,
             PasswordEncoder passwordEncoder) {
         this.userService = userService;
-        this.servletContext = servletContext;
         this.uploadService = uploadService;
         this.passwordEncoder = passwordEncoder;
 
@@ -67,18 +64,20 @@ public class UserController {
     @RequestMapping(value = "/admin/user/create", method = RequestMethod.POST)
     public String createUserPage(Model model,
             @ModelAttribute("newUser") @Valid User hoidanit,
-            BindingResult bindingResult,
+            BindingResult newUserbindingResult,
             @RequestParam("hoidanitFile") MultipartFile file) {
         // validate
-        List<FieldError> errors = bindingResult.getFieldErrors();
+        List<FieldError> errors = newUserbindingResult.getFieldErrors();
         for (FieldError error : errors) {
-            System.out.println(error.getObjectName() + "- " + error.getDefaultMessage());
+            System.out.println(error.getField() + "- " + error.getDefaultMessage());
         }
-
+        if (newUserbindingResult.hasErrors()) {
+            return "/admin/user/create";
+        }
         // test xem vi tri getcontextpath o dau
         // String b = this.servletContext.getRealPath("");
         String a = hoidanit.getRole().getName();
-        String avatar = this.uploadService.handleSaveloadFile(file, "avatar");
+        String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
         String hassPassword = this.passwordEncoder.encode(hoidanit.getPassword());
         hoidanit.setAvatar(avatar);
         hoidanit.setPassword(hassPassword);
@@ -97,6 +96,7 @@ public class UserController {
 
     @PostMapping("/admin/user/update")
     public String postUserUpdate(Model model, @ModelAttribute("newUser") User user) {
+
         User currentUser = this.userService.getUserByid(user.getId());
         // model.addAttribute("newUser", currentUser);
         if (currentUser != null) {
