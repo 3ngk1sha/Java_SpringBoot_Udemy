@@ -1,8 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-
             <html lang="en">
 
             <head>
@@ -73,7 +71,7 @@
 
                 <jsp:include page="../layout/banner.jsp" />
 
-                <jsp:include page="../layout/feature.jsp" />
+
 
 
                 <!-- Fruits Shop Start-->
@@ -111,24 +109,21 @@
                                                                 style="top: 10px; left: 10px;">Laptop</div>
                                                             <div
                                                                 class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                                <h4>
+                                                                <h4 style="font-size: 15px;">
                                                                     <a href="/product/${product.id}">
                                                                         ${product.name}
                                                                     </a>
 
                                                                 </h4>
-                                                                <p>${product.shortDesc}</p>
-                                                                <div
-                                                                    class="d-flex justify-content-between flex-lg-wrap">
-                                                                    <p class="text-dark fs-5 fw-bold mb-0">
-                                                                    <h5 class="fw-bold mb-3">
+                                                                <p style="font-size: 13px;">${product.shortDesc}</p>
+                                                                <div class="d-flex  flex-lg-wrap">
+                                                                    <p style="font-size: 15px; text-align: center; width: 100%;"
+                                                                        class="text-dark  fw-bold mb-3">
                                                                         <fmt:formatNumber type="number"
                                                                             value="${product.price}" /> đ
-
-                                                                    </h5>
                                                                     </p>
                                                                     <a href="#"
-                                                                        class="btn border border-secondary rounded-pill px-3 text-primary"><i
+                                                                        class="mx-auto btn border border-secondary rounded-pill px-3 text-primary"><i
                                                                             class="fa fa-shopping-bag me-2 text-primary"></i>
                                                                         Add to cart</a>
                                                                 </div>
@@ -146,7 +141,7 @@
                 </div>
                 <!-- Fruits Shop End-->
 
-
+                <jsp:include page="../layout/feature.jsp" />
 
                 <jsp:include page="../layout/footer.jsp" />
 

@@ -2,10 +2,12 @@ package vn.hoidanit.laptopshop.service;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import vn.hoidanit.laptopshop.domain.Role;
 import vn.hoidanit.laptopshop.domain.User;
+import vn.hoidanit.laptopshop.domain.DTO.RegisterDTO;
 import vn.hoidanit.laptopshop.repository.RoleRepository;
 import vn.hoidanit.laptopshop.repository.UserRepository;
 
@@ -13,10 +15,12 @@ import vn.hoidanit.laptopshop.repository.UserRepository;
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
 
     }
 
@@ -44,5 +48,24 @@ public class UserService {
 
     public Role getRolebyName(String name) {
         return this.roleRepository.findByName(name);
+    }
+
+    public User registerDTOtoUser(RegisterDTO registerDTO) {
+        User user = new User();
+        user.setFullname(registerDTO.getFirstName() + " " + registerDTO.getLastName());
+        user.setEmail(registerDTO.getEmail());
+
+        String hassPassword = this.passwordEncoder.encode(registerDTO.getPassword());
+        user.setPassword(hassPassword);
+        user.setRole(getRolebyName("USER"));
+        return user;
+    }
+
+    public boolean checkexistbyEmail(String email) {
+        return this.userRepository.existsByEmail(email);
+    }
+
+    public User getUserbyEmail(String email) {
+        return this.userRepository.findByemail(email);
     }
 }
