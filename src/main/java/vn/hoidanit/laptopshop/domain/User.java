@@ -28,8 +28,7 @@ public class User {
     private String email;
 
     @NotNull
-    @Size(min = 2, message = "Password phai co 2 ky tu")
-    @StrongPassword(message = "Meow meow")
+    @Size(min = 2, message = "Password phai co 2 ky tu-meowmeow")
     private String password;
 
     @NotNull

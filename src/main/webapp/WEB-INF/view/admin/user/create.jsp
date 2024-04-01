@@ -80,7 +80,7 @@
                                                         <form:input type="text"
                                                             class="form-control ${not empty errorFullName? 'is-invalid':''}"
                                                             path="fullname" />
-                                                        {errorFullName}
+                                                        ${errorFullName}
                                                     </div>
                                                     <div class="mb-3 col-12">
                                                         <label class="form-label">Address:</label>
