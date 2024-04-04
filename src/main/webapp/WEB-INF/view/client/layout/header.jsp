@@ -29,7 +29,9 @@
                                     <i class="fa fa-shopping-bag fa-2x"></i>
                                     <span
                                         class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                                        style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                                        style="top: -5px; left: 15px; height: 20px; min-width: 20px;">
+                                        ${sessionScope.sum}
+                                    </span>
                                 </a>
                                 <div class="dropdown my-auto">
                                     <a href="#" class="dropdown" role="button" id="dropdownMenuLink"
@@ -40,9 +42,10 @@
                                     <ul class="dropdown-menu dropdown-menu-end p-4" aria-labelledby="dropdownMenuLink">
                                         <li class="d-flex align-items-center flex-column" style="min-width: 300px;">
                                             <img style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden;"
-                                                src="/images/product/1711078092373-asus-01.png" />
+                                                src="/images/product/
+                                                ${sessionScope.avatar}" />
                                             <div class="text-center my-3">
-                                                <c:out value="${pageContext.request.userPrincipal.name}" />
+                                                <c:out value="${sessionScope.fullname}" />
                                             </div>
                                         </li>
                                         <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
