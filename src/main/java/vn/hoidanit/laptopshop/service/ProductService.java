@@ -84,4 +84,11 @@ public class ProductService {
 
     }
 
+    public List<CartDetail> getAllCartDetailByUser(String email) {
+        User user = this.userService.getUserbyEmail(email);
+        Cart cart = this.cartRepository.findByUser(user);
+        return cart.getCartDetails();
+
+    }
+
 }
