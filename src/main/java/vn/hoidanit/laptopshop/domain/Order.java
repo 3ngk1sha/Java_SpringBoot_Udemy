@@ -26,6 +26,11 @@ public class Order {
     private String receiverPhone;
 
     private String status;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetail> orderdetails;
 
     public String getReceiverName() {
         return receiverName;
@@ -60,11 +65,22 @@ public class Order {
     }
 
     // user id
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-    @OneToMany(mappedBy = "order")
-    List<OrderDetail> orderdetails;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<OrderDetail> getOrderdetails() {
+        return orderdetails;
+    }
+
+    public void setOrderdetails(List<OrderDetail> orderdetails) {
+        this.orderdetails = orderdetails;
+    }
 
     public long getId() {
         return id;
