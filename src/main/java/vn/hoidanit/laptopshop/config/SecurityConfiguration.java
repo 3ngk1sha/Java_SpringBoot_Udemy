@@ -20,6 +20,7 @@ import vn.hoidanit.laptopshop.service.UserService;
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -30,17 +31,6 @@ public class SecurityConfiguration {
         return new CustomUserDetailsService(userService);
     }
 
-    // @Bean
-    // public AuthenticationManager authenticationManager(HttpSecurity http,
-    // PasswordEncoder passwordEncoder,
-    // UserDetailsService userDetailsService) throws Exception {
-    // AuthenticationManagerBuilder authenticationManagerBuilder = http
-    // .getSharedObject(AuthenticationManagerBuilder.class);
-    // authenticationManagerBuilder
-    // .userDetailsService(userDetailsService)
-    // .passwordEncoder(passwordEncoder);
-    // return authenticationManagerBuilder.build();
-    // }
     @Bean
     public DaoAuthenticationProvider authProvider(
             PasswordEncoder passwordEncoder,
@@ -53,44 +43,52 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public SpringSessionRememberMeServices rememberMeServices() {
-        SpringSessionRememberMeServices rememberMeServices = new SpringSessionRememberMeServices();
-        // optionally customize
-        rememberMeServices.setAlwaysRemember(true);
-        return rememberMeServices;
-    }
-
-    @Bean
-    public AuthenticationSuccessHandler myAuthenticationSuccessHandler() {
+    public AuthenticationSuccessHandler customSuccessHandler() {
         return new CustomSuccessHandle();
     }
 
     @Bean
+    public SpringSessionRememberMeServices rememberMeServices() {
+        SpringSessionRememberMeServices rememberMeServices = new SpringSessionRememberMeServices();
+        // optionally customize
+        rememberMeServices.setAlwaysRemember(true);
+
+        return rememberMeServices;
+    }
+
+    @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        // v6. lamda
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.FORWARD,
                                 DispatcherType.INCLUDE)
                         .permitAll()
-                        .requestMatchers("/", "/login", "/product/**",
-                                "/client/**", "/css/**", "/js/**",
-                                "/images/**")
+
+                        .requestMatchers("/", "/login", "/product/**", "/register", "/products/**",
+                                "/client/**", "/css/**", "/js/**", "/images/**")
                         .permitAll()
+
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated())
-                .rememberMe(r -> r.rememberMeServices(rememberMeServices()))
+
                 .sessionManagement((sessionManagement) -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                         .invalidSessionUrl("/logout?expired")
                         .maximumSessions(1)
                         .maxSessionsPreventsLogin(false))
-                // .logout(logout->logout.deleteCookies("JSESSIONID").invalidateHttpSession(true))
+
+                .logout(logout -> logout.deleteCookies("JSESSIONID").invalidateHttpSession(true))
+
+                .rememberMe(r -> r.rememberMeServices(rememberMeServices()))
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
                         .failureUrl("/login?error")
-                        .successHandler(myAuthenticationSuccessHandler())
+                        .successHandler(customSuccessHandler())
                         .permitAll())
                 .exceptionHandling(ex -> ex.accessDeniedPage("/access-deny"));
+
         return http.build();
     }
 

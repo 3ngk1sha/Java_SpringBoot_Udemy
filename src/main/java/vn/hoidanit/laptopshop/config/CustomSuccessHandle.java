@@ -22,8 +22,10 @@ import vn.hoidanit.laptopshop.service.UserService;
 
 public class CustomSuccessHandle implements AuthenticationSuccessHandler {
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
     @Autowired
     private UserService userService;
+
 
     protected String determineTargetUrl(final Authentication authentication) {
 
