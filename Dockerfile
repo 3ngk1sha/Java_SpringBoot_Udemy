@@ -7,7 +7,7 @@ COPY pom.xml /hoidanit/spring-mvc
 
 # Set the working directory
 WORKDIR /hoidanit/spring-mvc
-
+mvn
 # Build the application as a WAR file and skip tests
 RUN mvn clean package -DskipTests
 
