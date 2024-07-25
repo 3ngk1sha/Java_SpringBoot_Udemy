@@ -100,7 +100,6 @@ public class ProductService {
                 } else {
                     oDetail.setQuantity(oDetail.getQuantity() + 1);
                     this.cartDetailRepository.save(oDetail);
-
                 }
 
             }
